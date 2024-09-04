@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "704207032972",
+    "project_id": "quizgame-2134f",
+    "storage_bucket": "quizgame-2134f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704207032972:android:58646c396392602cd221a9",
+        "android_client_info": {
+          "package_name": "com.example.flappybird"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG9804phrVk2rN2667-d32c_Qr9Eb0xV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
