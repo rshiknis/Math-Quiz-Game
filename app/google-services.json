@@ -12,7 +12,12 @@
           "package_name": "com.example.flappybird"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "704207032972-ot635gfj7bqt3t6ejdlk6oes5q25ghlt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCG9804phrVk2rN2667-d32c_Qr9Eb0xV0"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704207032972-ot635gfj7bqt3t6ejdlk6oes5q25ghlt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
