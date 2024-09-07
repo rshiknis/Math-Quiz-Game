@@ -29,38 +29,38 @@
 
 
     <LinearLayout
+        android:id="@+id/choices_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/choices_layout"
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/ans_A"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ans_A"
             android:layout_margin="5dp"
             android:backgroundTint="@color/white"
             android:text="Ans A"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/ans_B"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ans_B"
             android:layout_margin="5dp"
             android:backgroundTint="@color/white"
             android:text="Ans B"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/ans_C"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ans_C"
             android:layout_margin="5dp"
             android:backgroundTint="@color/white"
             android:text="Ans C"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
     </LinearLayout>
 

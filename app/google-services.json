@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "704207032972",
-    "project_id": "quizgame-2134f",
-    "storage_bucket": "quizgame-2134f.appspot.com"
+    "project_number": "619510679816",
+    "project_id": "quizgame-d36b3",
+    "storage_bucket": "quizgame-d36b3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:704207032972:android:58646c396392602cd221a9",
+        "mobilesdk_app_id": "1:619510679816:android:4a3f01711493975a6ec4bd",
         "android_client_info": {
           "package_name": "com.example.flappybird"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "704207032972-ot635gfj7bqt3t6ejdlk6oes5q25ghlt.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCG9804phrVk2rN2667-d32c_Qr9Eb0xV0"
+          "current_key": "AIzaSyB22hFvSIxZQEG6kDeQo4zZkNGpqLzNqzE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "704207032972-ot635gfj7bqt3t6ejdlk6oes5q25ghlt.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

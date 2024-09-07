@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:gravity="center"
+    android:padding="20dp">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/icon_login"></ImageView>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Username"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/textbox"
+            android:padding="18dp"
+            android:inputType="text"
+            android:id="@+id/username_input"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="Password"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/textbox"
+            android:padding="18dp"
+            android:inputType="textPassword"
+            android:id="@+id/password_input"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:padding="18dp"
+            android:layout_marginTop="40dp"
+            android:textSize="21sp"
+            android:id="@+id/login_button"></Button>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:padding="18dp"
+            android:layout_marginTop="40dp"
+            android:textSize="21sp"
+            android:id="@+id/signup_button"></Button>
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

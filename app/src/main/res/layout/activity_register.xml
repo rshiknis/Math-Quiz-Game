@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:gravity="center"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Sign Up!"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:translationX="100sp"
+        android:translationY="100sp" />
+
+    <EditText
+        android:id="@+id/username_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/textbox"
+        android:hint="Password"
+        android:inputType="text"
+        android:padding="18dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:translationY="350sp" />
+
+    <EditText
+        android:id="@+id/password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/textbox"
+        android:hint="Username"
+        android:inputType="textPassword"
+        android:padding="18dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:translationY="250sp" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/white"
+        android:padding="18dp"
+        android:text="Sign Up"
+        android:textColor="@color/black"
+        android:textSize="21sp"
+        android:translationY="500sp"></Button>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I Already Have an Account"
+        android:textColor="#000000"
+        android:translationX="60sp"
+        android:translationY="650sp" />
+</RelativeLayout>

@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int totalQuestion = QuestionChoicePairings.questionChoices.length;
     int currentQuestionIndex = 0;
     String selectedAnswer = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
