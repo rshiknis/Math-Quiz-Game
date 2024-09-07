@@ -1,76 +1,114 @@
 package com.example.flappybird;
-
-import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import com.example.flappybird.QuestionChoicePairings;
 
-import com.example.flappybird.databinding.ActivityMainBinding;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-import android.view.Menu;
-import android.view.MenuItem;
+    TextView totalQuestionsTextView;
+    TextView questionTextView;
+    Button ansA, ansB, ansC;
+    Button submitBtn;
 
-public class MainActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    int score=0;
+    int totalQuestion = QuestionChoicePairings.questionChoices.length;
+    int currentQuestionIndex = 0;
+    String selectedAnswer = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        totalQuestionsTextView = findViewById(R.id.total_question);
+        questionTextView = findViewById(R.id.question);
+        ansA = findViewById(R.id.ans_A);
+        ansB = findViewById(R.id.ans_B);
+        ansC = findViewById(R.id.ans_C);
+        submitBtn = findViewById(R.id.submit_btn);
 
-        setSupportActionBar(binding.toolbar);
+        ansA.setOnClickListener(this);
+        ansB.setOnClickListener(this);
+        ansC.setOnClickListener(this);
+        submitBtn.setOnClickListener(this);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        totalQuestionsTextView.setText("Total questions : "+totalQuestion);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        loadNewQuestion();
+
+
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        ansA.setBackgroundColor(Color.WHITE);
+        ansB.setBackgroundColor(Color.WHITE);
+        ansC.setBackgroundColor(Color.WHITE);
+
+        Button clickedButton = (Button) view;
+        if(clickedButton.getId()==R.id.submit_btn){
+            if(selectedAnswer.equals(QuestionChoicePairings.correctAnswerChoices[currentQuestionIndex])){
+                score++;
             }
-        });
-    }
+            currentQuestionIndex++;
+            loadNewQuestion();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        }else{
+            //choices button clicked
+            selectedAnswer  = clickedButton.getText().toString();
+            clickedButton.setBackgroundColor(Color.MAGENTA);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    void loadNewQuestion(){
+
+        if(currentQuestionIndex == totalQuestion ){
+            finishQuiz();
+            return;
+        }
+
+        questionTextView.setText(QuestionChoicePairings.questionChoices[currentQuestionIndex]);
+        ansA.setText(QuestionChoicePairings.answerChoices[currentQuestionIndex][0]);
+        ansB.setText(QuestionChoicePairings.answerChoices[currentQuestionIndex][1]);
+        ansC.setText(QuestionChoicePairings.answerChoices[currentQuestionIndex][2]);
+
     }
+
+    void finishQuiz(){
+        String passStatus = "";
+        if(score > totalQuestion*0.60){
+            passStatus = "Passed";
+        }else{
+            passStatus = "Failed";
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle(passStatus)
+                .setMessage("Score is "+ score+" out of "+ totalQuestion)
+                .setPositiveButton("Restart",(dialogInterface, i) -> restartQuiz() )
+                .setCancelable(false)
+                .show();
+
+
+    }
+
+    void restartQuiz(){
+        score = 0;
+        currentQuestionIndex =0;
+        loadNewQuestion();
+    }
+
 }

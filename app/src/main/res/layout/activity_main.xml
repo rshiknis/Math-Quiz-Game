@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fui_bgTwitter"
     android:padding="24dp"
     tools:context=".MainActivity">
 
@@ -22,8 +21,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/question"
         android:textStyle="bold"
-        android:text="This will be the question"
-        android:textColor="@color/white"
+        android:text="A Question"
         android:textSize="24dp"
         android:textAlignment="center"
         android:layout_margin="20dp"
