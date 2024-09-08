@@ -17,13 +17,13 @@
         android:translationY="100sp" />
 
     <EditText
-        android:id="@+id/username_input"
+        android:id="@+id/password_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/textbox"
         android:hint="Password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:padding="18dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -31,13 +31,13 @@
         android:translationY="350sp" />
 
     <EditText
-        android:id="@+id/password_input"
+        android:id="@+id/username_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/textbox"
         android:hint="Username"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:padding="18dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -45,7 +45,7 @@
         android:translationY="250sp" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/signup_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -57,7 +57,7 @@
         android:translationY="500sp"></Button>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/redirect_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="I Already Have an Account"
