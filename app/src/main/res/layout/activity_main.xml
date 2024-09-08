@@ -1,76 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="24dp"
     tools:context=".MainActivity">
 
+    <!-- Total Questions TextView -->
     <TextView
+        android:id="@+id/total_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/total_question"
-        android:text="Total Questions "
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"/>
+        android:text="Total Questions"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal" />
 
+    <!-- Timer TextView -->
     <TextView
         android:id="@+id/timer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time left: 10s"
-        android:layout_below="@id/total_question"
-        android:layout_centerHorizontal="true"
         android:textSize="18sp"
         android:textColor="@color/black"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal" />
 
+    <!-- Question TextView -->
     <TextView
+        android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/question"
         android:textStyle="bold"
-        android:text="A Question"
+        android:text="Math Question"
         android:textSize="24dp"
         android:textAlignment="center"
-        android:layout_margin="20dp"
-        android:layout_above="@id/choices_layout"/>
+        android:layout_margin="20dp" />
 
-    <LinearLayout
-        android:id="@+id/choices_layout"
+    <!-- Current Answer TextView -->
+    <TextView
+        android:id="@+id/current_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your answer: "
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Digit Buttons Layout arranged like a calculator -->
+    <GridLayout
+        android:id="@+id/digit_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:columnCount="3"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+        <!-- First Row -->
+        <Button
+            android:id="@+id/btn_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="1"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
 
         <Button
-            android:id="@+id/ans_A"
-            android:layout_width="match_parent"
+            android:id="@+id/btn_2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/white"
-            android:text="Ans A"
-            android:textColor="@color/black" />
+            android:layout_columnWeight="1"
+            android:text="2"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
 
         <Button
-            android:id="@+id/ans_B"
-            android:layout_width="match_parent"
+            android:id="@+id/btn_3"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/white"
-            android:text="Ans B"
-            android:textColor="@color/black" />
+            android:layout_columnWeight="1"
+            android:text="3"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <!-- Second Row -->
+        <Button
+            android:id="@+id/btn_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="4"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
 
         <Button
-            android:id="@+id/ans_C"
-            android:layout_width="match_parent"
+            android:id="@+id/btn_5"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/white"
-            android:text="Ans C"
-            android:textColor="@color/black" />
+            android:layout_columnWeight="1"
+            android:text="5"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btn_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="6"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
 
-</RelativeLayout>
+        <!-- Third Row -->
+        <Button
+            android:id="@+id/btn_7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="7"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="8"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="9"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <!-- Fourth Row -->
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Clear"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="0"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:visibility="invisible" />
+
+    </GridLayout>
+
+</LinearLayout>

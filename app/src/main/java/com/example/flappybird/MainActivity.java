@@ -9,18 +9,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView totalQuestionsTextView;
     TextView questionTextView;
     TextView timerTextView;
-    Button ansA, ansB, ansC;
+    TextView currentAnswerTextView; // Added this TextView for the current answer
+    Button[] digitButtons = new Button[10]; // 0-9 digit buttons
+    Button clearButton; // Clear button for answer reset
 
     int score = 0;
-    int totalQuestion = QuestionChoicePairings.questionChoices.length;
+    int totalQuestion = 3; // Fixed total number of questions
     int currentQuestionIndex = 0;
-    String selectedAnswer = "";
+    StringBuilder selectedAnswer = new StringBuilder(); // To hold multi-digit answers
     CountDownTimer countDownTimer;
+    int correctAnswer;
+
+    Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,32 +37,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         totalQuestionsTextView = findViewById(R.id.total_question);
         questionTextView = findViewById(R.id.question);
         timerTextView = findViewById(R.id.timer_text);
-        ansA = findViewById(R.id.ans_A);
-        ansB = findViewById(R.id.ans_B);
-        ansC = findViewById(R.id.ans_C);
+        currentAnswerTextView = findViewById(R.id.current_answer); // To display the current answer
 
-        ansA.setOnClickListener(this);
-        ansB.setOnClickListener(this);
-        ansC.setOnClickListener(this);
+        // Set up digit buttons for 0-9
+        digitButtons[0] = findViewById(R.id.btn_0);
+        digitButtons[1] = findViewById(R.id.btn_1);
+        digitButtons[2] = findViewById(R.id.btn_2);
+        digitButtons[3] = findViewById(R.id.btn_3);
+        digitButtons[4] = findViewById(R.id.btn_4);
+        digitButtons[5] = findViewById(R.id.btn_5);
+        digitButtons[6] = findViewById(R.id.btn_6);
+        digitButtons[7] = findViewById(R.id.btn_7);
+        digitButtons[8] = findViewById(R.id.btn_8);
+        digitButtons[9] = findViewById(R.id.btn_9);
+        clearButton = findViewById(R.id.btn_clear); // Clear button
 
-        totalQuestionsTextView.setText("Total questions : " + totalQuestion);
+        // Attach click listeners to digit buttons and set black text color
+        for (int i = 0; i < 10; i++) {
+            digitButtons[i].setOnClickListener(this);
+            digitButtons[i].setTextColor(Color.BLACK); // Set text color to black
+        }
 
+        // Attach click listener for clear button
+        clearButton.setOnClickListener(v -> clearAnswer());
+
+        totalQuestionsTextView.setText("Total questions: " + totalQuestion);
         loadNewQuestion();
     }
 
     @Override
     public void onClick(View view) {
-        // Reset the button colors
-        ansA.setBackgroundColor(Color.WHITE);
-        ansB.setBackgroundColor(Color.WHITE);
-        ansC.setBackgroundColor(Color.WHITE);
-
-        // Mark the selected button
         Button clickedButton = (Button) view;
-        selectedAnswer = clickedButton.getText().toString();
-        clickedButton.setBackgroundColor(Color.MAGENTA); // Highlight selected answer
 
-        // No need to check correctness immediately; the timer will handle it
+        // Toggle the button's color to magenta and append the digit to the answer
+        if (clickedButton.getCurrentTextColor() == Color.MAGENTA) {
+            clickedButton.setBackgroundColor(Color.WHITE); // Set back to white if unclicked
+        } else {
+            clickedButton.setBackgroundColor(Color.MAGENTA); // Set to magenta if clicked
+        }
+
+        String digit = clickedButton.getText().toString();
+        selectedAnswer.append(digit); // Add the digit to the answer
+        currentAnswerTextView.setText(selectedAnswer.toString()); // Update current answer display
+    }
+
+    void clearAnswer() {
+        // Clear the current answer and reset button colors
+        selectedAnswer.setLength(0); // Clear the selected answer
+        currentAnswerTextView.setText(""); // Clear the displayed current answer
+        for (Button btn : digitButtons) {
+            btn.setBackgroundColor(Color.WHITE); // Reset all buttons to white
+        }
     }
 
     void loadNewQuestion() {
@@ -64,22 +96,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        // Reset the button colors to default (e.g., white)
-        ansA.setBackgroundColor(Color.WHITE);
-        ansB.setBackgroundColor(Color.WHITE);
-        ansC.setBackgroundColor(Color.WHITE);
+        // Reset answer selection and button colors
+        selectedAnswer.setLength(0); // Clear previous answer
+        currentAnswerTextView.setText(""); // Clear current answer display
+        for (Button btn : digitButtons) {
+            btn.setBackgroundColor(Color.WHITE); // Reset buttons to white
+        }
 
-        // Set the new question and answers
-        questionTextView.setText(QuestionChoicePairings.questionChoices[currentQuestionIndex]);
-        ansA.setText(QuestionChoicePairings.answerChoices[currentQuestionIndex][0]);
-        ansB.setText(QuestionChoicePairings.answerChoices[currentQuestionIndex][1]);
-        ansC.setText(QuestionChoicePairings.answerChoices[currentQuestionIndex][2]);
+        // Generate random math question with positive whole number answers
+        int num1, num2;
+        char operation;
+        do {
+            num1 = random.nextInt(10);
+            num2 = random.nextInt(10) + 1; // avoid zero for division
+            operation = getRandomOperation(); // Randomly choose an operation
+            correctAnswer = generateQuestion(num1, num2, operation);
+        } while (correctAnswer < 0); // Ensure the answer is a positive whole number
 
-        // Reset answer selection
-        selectedAnswer = "";
+        questionTextView.setText(String.format("What is %d %c %d?", num1, operation, num2));
 
         // Start the 10-second countdown for the new question
         startTimer();
+    }
+
+    char getRandomOperation() {
+        char[] operations = {'+', '-', '*', '/'};
+        return operations[random.nextInt(4)];
+    }
+
+    int generateQuestion(int num1, int num2, char operation) {
+        switch (operation) {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                // Ensure division results in a whole number
+                if (num1 % num2 == 0) {
+                    return num1 / num2;
+                } else {
+                    return -1; // Invalid division, return -1 to regenerate the question
+                }
+        }
+        return -1;
     }
 
     void startTimer() {
@@ -93,11 +154,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 // Check if the selected answer was correct when the timer finishes
-                if (selectedAnswer.equals(QuestionChoicePairings.correctAnswerChoices[currentQuestionIndex])) {
-                    score++; // Increment score only if the answer was correct
+                try {
+                    int userAnswer = Integer.parseInt(selectedAnswer.toString());
+                    if (userAnswer == correctAnswer) {
+                        score++; // Increment score only if the answer was correct
+                    }
+                } catch (NumberFormatException e) {
+                    // Invalid answer (e.g., empty input), treat as incorrect
                 }
 
-                // Move to the next question regardless of the answer
+                // Move to the next question
                 currentQuestionIndex++;
                 loadNewQuestion();
             }
@@ -106,12 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void finishQuiz() {
-        String passStatus = "";
-        if (score > totalQuestion * 0.60) {
-            passStatus = "Passed";
-        } else {
-            passStatus = "Failed";
-        }
+        String passStatus = (score > totalQuestion * 0.60) ? "Passed" : "Failed";
 
         new AlertDialog.Builder(this)
                 .setTitle(passStatus)
