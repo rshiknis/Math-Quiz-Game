@@ -15,6 +15,16 @@
         android:layout_centerHorizontal="true"
         android:textSize="20dp"/>
 
+    <TextView
+        android:id="@+id/timer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time left: 10s"
+        android:layout_below="@id/total_question"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -26,7 +36,6 @@
         android:textAlignment="center"
         android:layout_margin="20dp"
         android:layout_above="@id/choices_layout"/>
-
 
     <LinearLayout
         android:id="@+id/choices_layout"
@@ -63,15 +72,5 @@
             android:textColor="@color/black" />
 
     </LinearLayout>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/submit_btn"
-        android:text="Submit"
-        android:layout_below="@id/choices_layout"
-        android:layout_marginTop="40dp"/>
-
-
 
 </RelativeLayout>
