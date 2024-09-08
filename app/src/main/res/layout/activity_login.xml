@@ -1,69 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
-    android:gravity="center"
-    android:padding="20dp">
-    
-    <LinearLayout
+    android:padding="24dp"
+    tools:context=".Login">
+
+    <!-- Icon ImageView -->
+    <ImageView
+        android:id="@+id/icon_login"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/icon_login" />
+
+    <!-- Username Input Field -->
+    <EditText
+        android:id="@+id/username_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@drawable/icon_login"></ImageView>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:hint="Username"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="20sp"
-            android:background="@drawable/textbox"
-            android:padding="18dp"
-            android:inputType="text"
-            android:id="@+id/username_input"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:hint="Password"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="20sp"
-            android:background="@drawable/textbox"
-            android:padding="18dp"
-            android:inputType="textPassword"
-            android:id="@+id/password_input"/>
+        android:layout_below="@id/icon_login"
+        android:layout_marginTop="32dp"
+        android:hint="Username"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:background="@drawable/textbox"
+        android:padding="18dp"
+        android:inputType="text" />
+
+    <!-- Password Input Field -->
+    <EditText
+        android:id="@+id/password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username_input"
+        android:layout_marginTop="32dp"
+        android:hint="Password"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:background="@drawable/textbox"
+        android:padding="18dp"
+        android:inputType="textPassword" />
+
+    <!-- LinearLayout to align buttons (Sign In and Sign Up) -->
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_input"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp">
+
+        <!-- Sign In Button -->
         <Button
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign In"
             android:backgroundTint="@color/white"
             android:textColor="@color/black"
             android:padding="18dp"
-            android:layout_marginTop="40dp"
-            android:textSize="21sp"
-            android:id="@+id/login_button"></Button>
+            android:layout_margin="5dp"
+            android:textSize="21sp" />
+
+        <!-- Sign Up Button -->
         <Button
+            android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"
             android:backgroundTint="@color/white"
             android:textColor="@color/black"
             android:padding="18dp"
-            android:layout_marginTop="40dp"
-            android:textSize="21sp"
-            android:id="@+id/signup_button"></Button>
-
-
-
+            android:layout_margin="5dp"
+            android:textSize="21sp" />
     </LinearLayout>
-
-
 
 </RelativeLayout>

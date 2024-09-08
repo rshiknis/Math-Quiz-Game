@@ -11,23 +11,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlappyBird"
         tools:targetApi="31">
+
+        <!-- Launching Login activity first -->
         <activity
             android:name=".Login"
-            android:exported="false" />
+            android:exported="true"> <!-- Ensure exported is true -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".Register"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FlappyBird.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/Theme.FlappyBird.NoActionBar" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
