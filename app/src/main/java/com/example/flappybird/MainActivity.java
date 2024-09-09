@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView currentAnswerTextView; // Added this TextView for the current answer
     Button[] digitButtons = new Button[10]; // 0-9 digit buttons
     Button clearButton; // Clear button for answer reset
+    Button submitButton; // Submit button to check the answer
 
     int score = 0;
-    int totalQuestion = 3; // Fixed total number of questions
-    int currentQuestionIndex = 0;
+    int totalQuestion = 0; // We'll count the number of answered questions
     StringBuilder selectedAnswer = new StringBuilder(); // To hold multi-digit answers
-    CountDownTimer countDownTimer;
+    CountDownTimer quizTimer;
     int correctAnswer;
     private FirebaseAuth auth;
 
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         digitButtons[8] = findViewById(R.id.btn_8);
         digitButtons[9] = findViewById(R.id.btn_9);
         clearButton = findViewById(R.id.btn_clear); // Clear button
+        submitButton = findViewById(R.id.btn_submit); // Submit button
 
         // Attach click listeners to digit buttons and set black text color
         for (int i = 0; i < 10; i++) {
@@ -67,8 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Attach click listener for clear button
         clearButton.setOnClickListener(v -> clearAnswer());
 
-        totalQuestionsTextView.setText("Total questions: " + totalQuestion);
-        loadNewQuestion();
+        // Attach click listener for submit button
+        submitButton.setOnClickListener(v -> checkAnswer());
+
+        totalQuestionsTextView.setText("Total questions answered: " + totalQuestion);
+        startQuiz();
     }
 
     @Override
@@ -97,11 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void loadNewQuestion() {
-        if (currentQuestionIndex == totalQuestion) {
-            finishQuiz();
-            return;
-        }
-
         // Reset answer selection and button colors
         selectedAnswer.setLength(0); // Clear previous answer
         currentAnswerTextView.setText(""); // Clear current answer display
@@ -120,9 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } while (correctAnswer < 0); // Ensure the answer is a positive whole number
 
         questionTextView.setText(String.format("What is %d %c %d?", num1, operation, num2));
-
-        // Start the 10-second countdown for the new question
-        startTimer();
     }
 
     char getRandomOperation() {
@@ -149,8 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return -1;
     }
 
-    void startTimer() {
-        countDownTimer = new CountDownTimer(10000, 1000) { // 10 seconds
+    void startQuiz() {
+        // Start the 30-second timer for the entire quiz
+        quizTimer = new CountDownTimer(30000, 1000) { // 30 seconds
             @Override
             public void onTick(long millisUntilFinished) {
                 // Update the timer text every second
@@ -159,26 +156,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFinish() {
-                // Check if the selected answer was correct when the timer finishes
-                try {
-                    int userAnswer = Integer.parseInt(selectedAnswer.toString());
-                    if (userAnswer == correctAnswer) {
-                        score++; // Increment score only if the answer was correct
-                    }
-                } catch (NumberFormatException e) {
-                    // Invalid answer (e.g., empty input), treat as incorrect
-                }
-
-                // Move to the next question
-                currentQuestionIndex++;
-                loadNewQuestion();
+                // End the quiz when the timer finishes
+                finishQuiz();
             }
         };
-        countDownTimer.start();
+        quizTimer.start();
+
+        // Load the first question
+        loadNewQuestion();
+    }
+
+    void checkAnswer() {
+        // Check if the selected answer is correct
+        try {
+            int userAnswer = Integer.parseInt(selectedAnswer.toString());
+            if (userAnswer == correctAnswer) {
+                score++; // Increment score only if the answer was correct
+            }
+        } catch (NumberFormatException e) {
+            // Invalid answer (e.g., empty input), treat as incorrect
+        }
+
+        // Increment the number of questions answered
+        totalQuestion++;
+        totalQuestionsTextView.setText("Total questions answered: " + totalQuestion);
+
+        // Load a new question
+        loadNewQuestion();
     }
 
     void finishQuiz() {
-        String passStatus = (score > totalQuestion * 0.60) ? "Passed" : "Failed";
+        quizTimer.cancel(); // Ensure the timer is canceled
 
         // Get the current Firebase user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -215,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         // Show the result in an AlertDialog
                         new AlertDialog.Builder(this)
-                                .setTitle(passStatus)
-                                .setMessage("Score is " + score + " out of " + totalQuestion)
+                                .setTitle("Quiz Finished")
+                                .setMessage("Your score: " + score)
                                 .setPositiveButton("Restart", (dialogInterface, i) -> restartQuiz())
                                 .setCancelable(false)
                                 .show();
@@ -234,7 +242,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void restartQuiz() {
         score = 0;
-        currentQuestionIndex = 0;
-        loadNewQuestion();
+        totalQuestion = 0;
+        totalQuestionsTextView.setText("Total questions answered: " + totalQuestion);
+        startQuiz(); // Start the quiz again
     }
 }

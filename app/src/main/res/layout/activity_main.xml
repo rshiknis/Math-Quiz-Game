@@ -22,9 +22,9 @@
         android:id="@+id/timer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time left: 10s"
+        android:text="Time left: 30s"
         android:textSize="18sp"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal" />
 
@@ -161,11 +161,15 @@
             android:textColor="@color/black"
             android:backgroundTint="@android:color/white" />
 
-        <View
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btn_submit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:visibility="invisible" />
+            android:text="Submit"
+            android:textColor="@color/black"
+            android:backgroundTint="@android:color/white" />
 
     </GridLayout>
 
