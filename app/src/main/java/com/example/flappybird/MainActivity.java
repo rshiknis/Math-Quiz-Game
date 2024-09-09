@@ -2,6 +2,7 @@ package com.example.flappybird;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -221,11 +222,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             FirebaseDatabase.getInstance().getReference().child("scores").child(userId).setValue(result);
                         }
 
-                        // Show the result in an AlertDialog
+                        // Show the result in an AlertDialog and then move to the leaderboard
                         new AlertDialog.Builder(this)
                                 .setTitle("Quiz Finished")
                                 .setMessage("Your score: " + score)
-                                .setPositiveButton("Restart", (dialogInterface, i) -> restartQuiz())
+                                .setPositiveButton("Go to Leaderboard", (dialogInterface, i) -> moveToLeaderboard())
                                 .setCancelable(false)
                                 .show();
                     } else {
@@ -238,6 +239,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .show();
                     }
                 });
+    }
+
+    void moveToLeaderboard() {
+        // Move to the Leaderboard activity
+        Intent intent = new Intent(MainActivity.this, Leaderboard.class);
+        startActivity(intent);
+        finish();
     }
 
     void restartQuiz() {

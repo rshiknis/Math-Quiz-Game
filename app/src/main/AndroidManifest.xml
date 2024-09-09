@@ -17,7 +17,6 @@
             android:exported="false">
         </activity>
 
-
         <activity
             android:name=".Login"
             android:exported="true">
@@ -31,6 +30,13 @@
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/app_name"
+            android:theme="@style/Theme.FlappyBird.NoActionBar" />
+
+        <!-- Leaderboard Activity -->
+        <activity
+            android:name=".Leaderboard"
+            android:exported="false"
+            android:label="@string/leaderboard_title"
             android:theme="@style/Theme.FlappyBird.NoActionBar" />
 
     </application>
