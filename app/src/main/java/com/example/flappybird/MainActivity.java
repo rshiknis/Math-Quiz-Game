@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -176,13 +179,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void finishQuiz() {
         String passStatus = (score > totalQuestion * 0.60) ? "Passed" : "Failed";
-        FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(score);
-        new AlertDialog.Builder(this)
-                .setTitle(passStatus)
-                .setMessage("Score is " + score + " out of " + totalQuestion)
-                .setPositiveButton("Restart", (dialogInterface, i) -> restartQuiz())
-                .setCancelable(false)
-                .show();
+
+        // Get the current Firebase user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Extract username from the email address
+        final String[] username = {""}; // Wrap in array to allow modification
+        String email = user.getEmail();
+        if (email != null && email.contains("@")) {
+            username[0] = email.split("@")[0]; // Get the part before the '@'
+        }
+
+        // Get a reference to the user's score in Firebase
+        String userId = user.getUid();
+        FirebaseDatabase.getInstance().getReference().child("scores").child(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Retrieve the current score from Firebase, if exists
+                        Object scoreObj = task.getResult().child("score").getValue();
+                        int previousScore = 0;
+                        if (scoreObj != null) {
+                            previousScore = Integer.parseInt(scoreObj.toString());
+                        }
+
+                        // Check if the new score is higher than the previous score
+                        if (score > previousScore) {
+                            // Create a map to store both the username and the new (higher) score
+                            Map<String, Object> result = new HashMap<>();
+                            result.put("username", username[0]);
+                            result.put("score", score);
+
+                            // Store the result in Firebase Realtime Database under the user's UID
+                            FirebaseDatabase.getInstance().getReference().child("scores").child(userId).setValue(result);
+                        }
+
+                        // Show the result in an AlertDialog
+                        new AlertDialog.Builder(this)
+                                .setTitle(passStatus)
+                                .setMessage("Score is " + score + " out of " + totalQuestion)
+                                .setPositiveButton("Restart", (dialogInterface, i) -> restartQuiz())
+                                .setCancelable(false)
+                                .show();
+                    } else {
+                        // Handle potential failure to retrieve data from Firebase
+                        new AlertDialog.Builder(this)
+                                .setTitle("Error")
+                                .setMessage("Failed to retrieve previous score.")
+                                .setPositiveButton("Retry", (dialogInterface, i) -> finishQuiz())
+                                .setCancelable(false)
+                                .show();
+                    }
+                });
     }
 
     void restartQuiz() {
