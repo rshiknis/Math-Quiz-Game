@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     StringBuilder selectedAnswer = new StringBuilder(); // To hold multi-digit answers
     CountDownTimer countDownTimer;
     int correctAnswer;
+    private FirebaseAuth auth;
 
     Random random = new Random();
 
@@ -33,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         totalQuestionsTextView = findViewById(R.id.total_question);
         questionTextView = findViewById(R.id.question);
         timerTextView = findViewById(R.id.timer_text);
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void finishQuiz() {
         String passStatus = (score > totalQuestion * 0.60) ? "Passed" : "Failed";
-
+        FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(score);
         new AlertDialog.Builder(this)
                 .setTitle(passStatus)
                 .setMessage("Score is " + score + " out of " + totalQuestion)
