@@ -8,7 +8,6 @@
     android:padding="24dp"
     tools:context=".Login">
 
-    <!-- Icon ImageView -->
     <ImageView
         android:id="@+id/icon_login"
         android:layout_width="160dp"
@@ -17,7 +16,6 @@
         android:layout_marginBottom="20dp"
         android:src="@drawable/icon_login" />
 
-    <!-- Username Input Field -->
     <EditText
         android:id="@+id/username_input"
         android:layout_width="match_parent"
@@ -32,7 +30,6 @@
         android:padding="18dp"
         android:inputType="text" />
 
-    <!-- Password Input Field -->
     <EditText
         android:id="@+id/password_input"
         android:layout_width="match_parent"
@@ -47,7 +44,6 @@
         android:padding="18dp"
         android:inputType="textPassword" />
 
-    <!-- LinearLayout to align buttons (Sign In and Sign Up) -->
     <LinearLayout
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
@@ -56,7 +52,6 @@
         android:orientation="vertical"
         android:layout_marginTop="40dp">
 
-        <!-- Sign In Button -->
         <Button
             android:id="@+id/login_button"
             android:layout_width="match_parent"

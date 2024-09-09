@@ -1,83 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context=".Leaderboard">
+    android:background="@drawable/login_background"
+    android:gravity="center"
+    android:layout_gravity="center_horizontal">
 
-    <!-- Title for the Leaderboard -->
     <TextView
         android:id="@+id/leaderboard_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Leaderboard"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
+        android:textSize="40sp"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom="20dp" />
 
-    <!-- Top 3 Players Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center_horizontal">
 
-        <!-- Player 1 -->
         <TextView
             android:id="@+id/player_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1. Player 1: 0"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/white"
             android:layout_marginBottom="10dp" />
 
-        <!-- Player 2 -->
         <TextView
             android:id="@+id/player_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2. Player 2: 0"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/white"
             android:layout_marginBottom="10dp" />
 
-        <!-- Player 3 -->
         <TextView
             android:id="@+id/player_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3. Player 3: 0"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/white"
             android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 
-    <!-- Play Again Button -->
     <Button
         android:id="@+id/btn_play_again"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Play Again"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@android:color/holo_blue_light"
-        android:textSize="18sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:textSize="21sp"
         android:layout_marginTop="20dp" />
 
-    <!-- Exit Button -->
     <Button
         android:id="@+id/btn_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Exit"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@android:color/holo_red_light"
-        android:textSize="18sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:textSize="21sp"
         android:layout_marginTop="10dp" />
 
 </LinearLayout>

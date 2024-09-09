@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context=".MainActivity">
+    android:background="@drawable/login_background"
+    android:gravity="center">
 
-    <!-- Total Questions TextView -->
     <TextView
         android:id="@+id/total_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Questions"
-        android:textSize="20dp"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
         android:layout_gravity="center_horizontal" />
 
-    <!-- Timer TextView -->
     <TextView
         android:id="@+id/timer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time left: 30s"
         android:textSize="18sp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal" />
 
-    <!-- Question TextView -->
     <TextView
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="Math Question"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:layout_margin="20dp" />
 
-    <!-- Current Answer TextView -->
     <TextView
         android:id="@+id/current_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your answer: "
         android:textSize="18sp"
+        android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp" />
 
-    <!-- Digit Buttons Layout arranged like a calculator -->
     <GridLayout
         android:id="@+id/digit_buttons_layout"
         android:layout_width="match_parent"
@@ -58,7 +55,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp">
 
-        <!-- First Row -->
         <Button
             android:id="@+id/btn_1"
             android:layout_width="0dp"
@@ -86,7 +82,6 @@
             android:textColor="@color/black"
             android:backgroundTint="@android:color/white" />
 
-        <!-- Second Row -->
         <Button
             android:id="@+id/btn_4"
             android:layout_width="0dp"
@@ -114,7 +109,6 @@
             android:textColor="@color/black"
             android:backgroundTint="@android:color/white" />
 
-        <!-- Third Row -->
         <Button
             android:id="@+id/btn_7"
             android:layout_width="0dp"
@@ -142,7 +136,6 @@
             android:textColor="@color/black"
             android:backgroundTint="@android:color/white" />
 
-        <!-- Fourth Row -->
         <Button
             android:id="@+id/btn_clear"
             android:layout_width="0dp"
@@ -161,7 +154,6 @@
             android:textColor="@color/black"
             android:backgroundTint="@android:color/white" />
 
-        <!-- Submit Button -->
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="0dp"
