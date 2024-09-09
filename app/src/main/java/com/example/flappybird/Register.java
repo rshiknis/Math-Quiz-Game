@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class Register extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
         loginRedirect = findViewById(R.id.redirect_button);
         signupButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 String username = signupUsername.getText().toString().trim();
@@ -48,6 +50,7 @@ public class Register extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(Register.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
+                                FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(0);
                                 startActivity(new Intent(Register.this, Login.class));
                             } else {
                                 Toast.makeText(Register.this, "Your sign in has failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
