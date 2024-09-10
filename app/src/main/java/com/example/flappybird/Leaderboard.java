@@ -20,46 +20,38 @@ import java.util.Map;
 
 public class Leaderboard extends AppCompatActivity {
 
-    TextView player1, player2, player3;
-    Button playAgainButton, exitButton;
+    private TextView player1, player2, player3;
+    private Button playAgainButton, exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leaderboard); // Set the correct layout file
+        setContentView(R.layout.activity_leaderboard);
 
-        // Initialize views
         player1 = findViewById(R.id.player_1);
         player2 = findViewById(R.id.player_2);
         player3 = findViewById(R.id.player_3);
         playAgainButton = findViewById(R.id.btn_play_again);
         exitButton = findViewById(R.id.btn_exit);
 
-        // Load leaderboard data from Firebase
         loadLeaderboardData();
 
-        // Set up Play Again button to restart the game
         playAgainButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Leaderboard.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(Leaderboard.this, MainActivity.class));
             finish();
         });
 
-        // Set up Exit button to close the app
         exitButton.setOnClickListener(v -> finishAffinity());
     }
 
     private void loadLeaderboardData() {
-        // Get a reference to the Firebase Realtime Database
         DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference("scores");
 
-        // Fetch data from Firebase
         scoresRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 DataSnapshot snapshot = task.getResult();
                 List<Map.Entry<String, Long>> leaderboard = new ArrayList<>();
 
-                // Iterate through the scores and add to the list
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String username = userSnapshot.child("username").getValue(String.class);
                     Long score = userSnapshot.child("score").getValue(Long.class);
@@ -70,16 +62,13 @@ public class Leaderboard extends AppCompatActivity {
                 }
 
                 if (!leaderboard.isEmpty()) {
-                    // Sort the leaderboard by score in descending order
                     Collections.sort(leaderboard, (a, b) -> b.getValue().compareTo(a.getValue()));
-                    // Update the UI for the top 3 players
                     updateLeaderboardUI(leaderboard);
                 } else {
                     Toast.makeText(Leaderboard.this, "No leaderboard data available.", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
-                // Handle any failure in fetching the data
                 Log.e("Leaderboard", "Error loading data from Firebase", task.getException());
                 Toast.makeText(Leaderboard.this, "Failed to load leaderboard data.", Toast.LENGTH_SHORT).show();
             }
@@ -87,21 +76,8 @@ public class Leaderboard extends AppCompatActivity {
     }
 
     private void updateLeaderboardUI(List<Map.Entry<String, Long>> leaderboard) {
-        // Update the UI for the top 3 players or show placeholders
-        if (leaderboard.size() > 0) {
-            player1.setText("1. " + leaderboard.get(0).getKey() + ": " + leaderboard.get(0).getValue());
-        } else {
-            player1.setText("1. No data");
-        }
-        if (leaderboard.size() > 1) {
-            player2.setText("2. " + leaderboard.get(1).getKey() + ": " + leaderboard.get(1).getValue());
-        } else {
-            player2.setText("2. No data");
-        }
-        if (leaderboard.size() > 2) {
-            player3.setText("3. " + leaderboard.get(2).getKey() + ": " + leaderboard.get(2).getValue());
-        } else {
-            player3.setText("3. No data");
-        }
+        player1.setText(leaderboard.size() > 0 ? "1. " + leaderboard.get(0).getKey() + ": " + leaderboard.get(0).getValue() : "1. No data");
+        player2.setText(leaderboard.size() > 1 ? "2. " + leaderboard.get(1).getKey() + ": " + leaderboard.get(1).getValue() : "2. No data");
+        player3.setText(leaderboard.size() > 2 ? "3. " + leaderboard.get(2).getKey() + ": " + leaderboard.get(2).getValue() : "3. No data");
     }
 }

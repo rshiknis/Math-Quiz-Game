@@ -23,14 +23,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView totalQuestionsTextView;
     TextView questionTextView;
     TextView timerTextView;
-    TextView currentAnswerTextView; // Added this TextView for the current answer
-    Button[] digitButtons = new Button[10]; // 0-9 digit buttons
-    Button clearButton; // Clear button for answer reset
-    Button submitButton; // Submit button to check the answer
+    TextView currentAnswerTextView;
+    Button[] digitButtons = new Button[10];
+    Button clearButton;
+    Button submitButton;
 
     int score = 0;
-    int totalQuestion = 0; // We'll count the number of answered questions
-    StringBuilder selectedAnswer = new StringBuilder(); // To hold multi-digit answers
+    int totalQuestion = 0;
+    StringBuilder selectedAnswer = new StringBuilder();
     CountDownTimer quizTimer;
     int correctAnswer;
     private FirebaseAuth auth;
@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         totalQuestionsTextView = findViewById(R.id.total_question);
         questionTextView = findViewById(R.id.question);
         timerTextView = findViewById(R.id.timer_text);
-        currentAnswerTextView = findViewById(R.id.current_answer); // To display the current answer
+        currentAnswerTextView = findViewById(R.id.current_answer);
 
-        // Set up digit buttons for 0-9
         digitButtons[0] = findViewById(R.id.btn_0);
         digitButtons[1] = findViewById(R.id.btn_1);
         digitButtons[2] = findViewById(R.id.btn_2);
@@ -57,19 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         digitButtons[7] = findViewById(R.id.btn_7);
         digitButtons[8] = findViewById(R.id.btn_8);
         digitButtons[9] = findViewById(R.id.btn_9);
-        clearButton = findViewById(R.id.btn_clear); // Clear button
-        submitButton = findViewById(R.id.btn_submit); // Submit button
+        clearButton = findViewById(R.id.btn_clear);
+        submitButton = findViewById(R.id.btn_submit);
 
-        // Attach click listeners to digit buttons and set black text color
         for (int i = 0; i < 10; i++) {
             digitButtons[i].setOnClickListener(this);
-            digitButtons[i].setTextColor(Color.BLACK); // Set text color to black
+            digitButtons[i].setTextColor(Color.BLACK);
         }
 
-        // Attach click listener for clear button
         clearButton.setOnClickListener(v -> clearAnswer());
-
-        // Attach click listener for submit button
         submitButton.setOnClickListener(v -> checkAnswer());
 
         totalQuestionsTextView.setText("Total questions answered: " + totalQuestion);
@@ -80,44 +76,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Button clickedButton = (Button) view;
 
-        // Toggle the button's color to magenta and append the digit to the answer
         if (clickedButton.getCurrentTextColor() == Color.MAGENTA) {
-            clickedButton.setBackgroundColor(Color.WHITE); // Set back to white if unclicked
+            clickedButton.setBackgroundColor(Color.WHITE);
         } else {
-            clickedButton.setBackgroundColor(Color.MAGENTA); // Set to magenta if clicked
+            clickedButton.setBackgroundColor(Color.MAGENTA);
         }
 
         String digit = clickedButton.getText().toString();
-        selectedAnswer.append(digit); // Add the digit to the answer
-        currentAnswerTextView.setText(selectedAnswer.toString()); // Update current answer display
+        selectedAnswer.append(digit);
+        currentAnswerTextView.setText(selectedAnswer.toString());
     }
 
     void clearAnswer() {
-        // Clear the current answer and reset button colors
-        selectedAnswer.setLength(0); // Clear the selected answer
-        currentAnswerTextView.setText(""); // Clear the displayed current answer
+        selectedAnswer.setLength(0);
+        currentAnswerTextView.setText("");
         for (Button btn : digitButtons) {
-            btn.setBackgroundColor(Color.WHITE); // Reset all buttons to white
+            btn.setBackgroundColor(Color.WHITE);
         }
     }
 
     void loadNewQuestion() {
-        // Reset answer selection and button colors
-        selectedAnswer.setLength(0); // Clear previous answer
-        currentAnswerTextView.setText(""); // Clear current answer display
+        selectedAnswer.setLength(0);
+        currentAnswerTextView.setText("");
         for (Button btn : digitButtons) {
-            btn.setBackgroundColor(Color.WHITE); // Reset buttons to white
+            btn.setBackgroundColor(Color.WHITE);
         }
 
-        // Generate random math question with positive whole number answers
         int num1, num2;
         char operation;
         do {
             num1 = random.nextInt(10);
-            num2 = random.nextInt(10) + 1; // avoid zero for division
-            operation = getRandomOperation(); // Randomly choose an operation
+            num2 = random.nextInt(10) + 1;
+            operation = getRandomOperation();
             correctAnswer = generateQuestion(num1, num2, operation);
-        } while (correctAnswer < 0); // Ensure the answer is a positive whole number
+        } while (correctAnswer < 0);
 
         questionTextView.setText(String.format("What is %d %c %d?", num1, operation, num2));
     }
@@ -136,93 +128,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case '*':
                 return num1 * num2;
             case '/':
-                // Ensure division results in a whole number
                 if (num1 % num2 == 0) {
                     return num1 / num2;
                 } else {
-                    return -1; // Invalid division, return -1 to regenerate the question
+                    return -1;
                 }
         }
         return -1;
     }
 
     void startQuiz() {
-        // Start the 30-second timer for the entire quiz
-        quizTimer = new CountDownTimer(30000, 1000) { // 30 seconds
+        quizTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                // Update the timer text every second
                 timerTextView.setText("Time left: " + millisUntilFinished / 1000 + "s");
             }
 
             @Override
             public void onFinish() {
-                // End the quiz when the timer finishes
                 finishQuiz();
             }
         };
         quizTimer.start();
 
-        // Load the first question
         loadNewQuestion();
     }
 
     void checkAnswer() {
-        // Check if the selected answer is correct
         try {
             int userAnswer = Integer.parseInt(selectedAnswer.toString());
             if (userAnswer == correctAnswer) {
-                score++; // Increment score only if the answer was correct
+                score++;
             }
         } catch (NumberFormatException e) {
-            // Invalid answer (e.g., empty input), treat as incorrect
         }
 
-        // Increment the number of questions answered
         totalQuestion++;
         totalQuestionsTextView.setText("Total questions answered: " + totalQuestion);
 
-        // Load a new question
         loadNewQuestion();
     }
 
     void finishQuiz() {
-        quizTimer.cancel(); // Ensure the timer is canceled
+        quizTimer.cancel();
 
-        // Get the current Firebase user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Extract username from the email address
-        final String[] username = {""}; // Wrap in array to allow modification
+        final String[] username = {""};
         String email = user.getEmail();
         if (email != null && email.contains("@")) {
-            username[0] = email.split("@")[0]; // Get the part before the '@'
+            username[0] = email.split("@")[0];
         }
 
-        // Get a reference to the user's score in Firebase
         String userId = user.getUid();
         FirebaseDatabase.getInstance().getReference().child("scores").child(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Retrieve the current score from Firebase, if exists
                         Object scoreObj = task.getResult().child("score").getValue();
                         int previousScore = 0;
                         if (scoreObj != null) {
                             previousScore = Integer.parseInt(scoreObj.toString());
                         }
 
-                        // Check if the new score is higher than the previous score
                         if (score > previousScore) {
-                            // Create a map to store both the username and the new (higher) score
                             Map<String, Object> result = new HashMap<>();
                             result.put("username", username[0]);
                             result.put("score", score);
 
-                            // Store the result in Firebase Realtime Database under the user's UID
                             FirebaseDatabase.getInstance().getReference().child("scores").child(userId).setValue(result);
                         }
 
-                        // Show the result in an AlertDialog and then move to the leaderboard
                         new AlertDialog.Builder(this)
                                 .setTitle("Quiz Finished")
                                 .setMessage("Your score: " + score)
@@ -230,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .setCancelable(false)
                                 .show();
                     } else {
-                        // Handle potential failure to retrieve data from Firebase
                         new AlertDialog.Builder(this)
                                 .setTitle("Error")
                                 .setMessage("Failed to retrieve previous score.")
@@ -242,16 +216,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void moveToLeaderboard() {
-        // Move to the Leaderboard activity
         Intent intent = new Intent(MainActivity.this, Leaderboard.class);
         startActivity(intent);
         finish();
-    }
-
-    void restartQuiz() {
-        score = 0;
-        totalQuestion = 0;
-        totalQuestionsTextView.setText("Total questions answered: " + totalQuestion);
-        startQuiz(); // Start the quiz again
     }
 }
